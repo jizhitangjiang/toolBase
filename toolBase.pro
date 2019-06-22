@@ -22,7 +22,11 @@ unix {
 }
 
 SOURCES += \
-    src/widget/WindowStyle.cpp
+    src/widget/WindowStyle.cpp \
+    src/config/Setting.cpp \
+    src/network/NetWork.cpp
 
 HEADERS += \
-    include/WindowStyle.h
+    include/WindowStyle.h \
+    include/Setting.h \
+    include/NetWork.h
