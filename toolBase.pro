@@ -24,9 +24,11 @@ unix {
 SOURCES += \
     src/widget/WindowStyle.cpp \
     src/config/Setting.cpp \
-    src/network/NetWork.cpp
+    src/network/NetWork.cpp \
+    src/cache/FileCache.cpp
 
 HEADERS += \
     include/WindowStyle.h \
     include/Setting.h \
-    include/NetWork.h
+    include/NetWork.h \
+    include/FileCache.h

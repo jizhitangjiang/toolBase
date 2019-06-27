@@ -18,10 +18,10 @@ NetWork::NetWork(QObject *parent)
 
 NetWork::~NetWork()
 {
-
+    clear();
 }
 
-int NetWork::post(const QString &url, NMap args)
+int NetWork::post(const QString &url, const QList<NArg> &args)
 {
     if (url.isEmpty()) {
         return -1;
@@ -85,21 +85,18 @@ RequestData *NetWork::peekRequest()
     return m_ready.dequeue();
 }
 
-QByteArray NetWork::parseArgs(NMap args)
+QByteArray NetWork::parseArgs(const QList<NArg> &args)
 {
     QByteArray data;
 
     if (!args.isEmpty()) {
-        QUrlQuery query;
-        NMap::const_iterator cite = args.cbegin();
-        NMap::const_iterator cend = args.cend();
-
-        while(cite != cend) {
-            QString key = cite.key();
-            QString value = cite.value().toString();
+        QUrlQuery query;   
+        for (int i = 0, s = args.size(); i < s; i++) {
+            QString key = args.at(i).first;
+            QString value = args.at(i).second.toString();
             query.addQueryItem(key, value);
-            cite++;
         }
+
         data = query.toString().toUtf8();
     }
 
@@ -193,17 +190,21 @@ void NetWork::onHttpReply()
         QJsonObject obj = doc.object();
 
         int code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
         bool stat = false;
-        if (code == 200) {
+        QString msg;
+        QJsonObject value;
+        if (code == 200 && reply->error() == QNetworkReply::NoError) {
             if (obj.contains("status")) {
                 stat = obj.value("status").toBool();
             } else {
                 stat = (obj.value("stat").toInt() == 1);
             }
+            msg = obj.value("msg").toString();
+            value = obj.value("data").toObject();
+        } else {
+            msg = reply->errorString();
         }
-
-        QString msg = obj.value("msg").toString();
-        QJsonObject value = obj.value("data").toObject();
 
         int rid = reply->property("requestId").toInt();
         if (m_running.contains(rid)) {
@@ -215,7 +216,7 @@ void NetWork::onHttpReply()
 
                 delete reqData;
                 reqData = nullptr;
-            }
+            } 
            m_running.remove(rid);
         }
 

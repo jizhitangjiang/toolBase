@@ -4,14 +4,13 @@
 #include <QObject>
 #include <QQueue>
 #include <QPair>
+#include <QList>
 #include <QUrl>
 #include <QMutex>
 #include <QNetworkAccessManager>
 
-#define CALLBACK(f) (##f)
-
-using NMap = QMap<QString, QVariant>;
 using NPair = QPair<QObject*, char*>;
+using NArg  = QPair<QString, QVariant>;
 
 struct RequestData
 {
@@ -39,7 +38,7 @@ public:
     };
 
 public:
-    int post(const QString &url, NMap args);
+    int post(const QString &url, const QList<NArg> &args = QList<NArg>());
     int get(const QString &url);
     void registerInvokeFunc(int rid, NPair callback);
 
@@ -47,7 +46,7 @@ private:
     int appendRequest(requestType type, const QString &url, const QByteArray &data = "");
     RequestData* peekRequest();
     RequestData* findRequestData(int rid);
-    QByteArray parseArgs(NMap args);
+    QByteArray parseArgs(const QList<NArg> &args);
     void invokeMethod();
     void clear();
 

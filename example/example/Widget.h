@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include "Setting.h"
 #include "NetWork.h"
+#include "FileCache.h"
 
 namespace Ui {
 class Widget;
@@ -30,6 +31,7 @@ private:
     Ui::Widget *ui;
     Setting *m_setting;
     NetWork *m_network;
+    FileCache *m_fileCache;
 };
 
 #endif // WIDGET_H
