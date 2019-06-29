@@ -25,10 +25,13 @@ SOURCES += \
     src/widget/WindowStyle.cpp \
     src/config/Setting.cpp \
     src/network/NetWork.cpp \
-    src/cache/FileCache.cpp
+    src/cache/FileCache.cpp \
+    src/network/NetWorkDownload.cpp
 
 HEADERS += \
     include/WindowStyle.h \
     include/Setting.h \
     include/NetWork.h \
-    include/FileCache.h
+    include/FileCache.h \
+    src/network/NetWorkDownload.h \
+    include/NetWorkDownload.h

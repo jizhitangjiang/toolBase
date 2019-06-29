@@ -6,7 +6,7 @@
 #include "Setting.h"
 #include "NetWork.h"
 #include "FileCache.h"
-
+#include "NetWorkDownload.h"
 namespace Ui {
 class Widget;
 }
@@ -20,7 +20,9 @@ public:
     ~Widget();
 
     void init();
-    void load();
+    void request();
+    void cache();
+    void download();
 
 private slots:
     void onLoadFinished(bool stat, const QString msg, const QJsonObject obj);
@@ -32,6 +34,7 @@ private:
     Setting *m_setting;
     NetWork *m_network;
     FileCache *m_fileCache;
+    NetWorkDownload *m_download;
 };
 
 #endif // WIDGET_H
